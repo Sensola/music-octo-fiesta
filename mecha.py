@@ -38,10 +38,9 @@ def youtube(song):
             turnip[key] = jsonpaska[key]
         turnip["vidurl"]=vidurl
         data.append(turnip)
-        # data = data + "<li><div class='search_result'><div class='thumbnail'><img src={} height='100px'></div><div class='song_info'><p>{}</p><br><p>{}</p></div><br><br></div></li>".format(jsonpaska["thumbnail_url"],jsonpaska["title"],jsonpaska["author_name"])
 
-        i+=1
-        if i >= 5:   #TODO: option to show more
+        i += 1
+        if i >= 5:  # TODO: option to show more
             break
     return data
 
