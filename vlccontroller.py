@@ -1,29 +1,31 @@
 import os
 import subprocess
-import vlc
+# import vlc
+import time
 source = "https://www.youtube.com/watch?v=bd2B6SjMh_w"
 source2 = "https://www.youtube.com/watch?v=E4yjpT8dkLw"
+
+PIPENAME = "piipe"
 
 def start_streaming(source):
     VLC = "\"C:\\Program Files (x86)\\VideoLAN\VLC\\vlc.exe\""
     ytdl = "youtube-dl -o - "
-    server = "NamedPipeServer.exe"
-    pipename = "\"SensosNamedPipe\""
-    command = "{} {} | {} {}".format(ytdl,source, server, pipename)
-    os.system("youtube-dl -o - {} | {} {} ".format(source, server, pipename))
-    #with subprocess.Popen(command) as a:
-     #   pass
+    stream_process = os.popen("youtube-dl -o - {} > {} ".format(source, PIPENAME))
+    return stream_process
 
 def play():
-    p = vlc.MediaPlayer('fd://SensosNamedPipe')
-
-    p.play()
+    time.sleep(4)
+    #os.system("cat < " + PIPENAME)
+    print("mui")
+    #p = vlc.MediaPlayer('fd://{}'.format(PIPENAME))
+    ## p.play()
 
 
 class VLCController:
     VLC = "\"C:\\Program Files (x86)\\VideoLAN\VLC\\vlc.exe\""
 
     def play_new(self, source):
+        print("streaming")
         # todo: use subprocess and make vlc controllable
         ytdl = "youtube-dl -o - {}".format(source)
         youtube_dl = subprocess.Popen(ytdl, stdout=subprocess.PIPE)
@@ -32,14 +34,17 @@ class VLCController:
 
     def pause(self):
         pass
+
 def main2():
     vlc = VLCController()
     playlist = [source,source2]
     while playlist:
         vlc.play_new(playlist.pop(0))
 def main():
-    start_streaming(source)
+    a = start_streaming(source)
     play()
+    input("Close")
+    a.close()
 
 if __name__ == "__main__":
     main()
