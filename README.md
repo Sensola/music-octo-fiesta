@@ -1,2 +1,2 @@
 # music-octo-fiesta
-Server and webbapp to change servers music
+Webapp and backend to change music playing in host machine 
