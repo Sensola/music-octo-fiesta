@@ -1,56 +1,103 @@
 import os
-import subprocess
-# import vlc
+#  import subprocess
+import vlc
 import time
 source = "https://www.youtube.com/watch?v=bd2B6SjMh_w"
 source2 = "https://www.youtube.com/watch?v=E4yjpT8dkLw"
 
 PIPENAME = "piipe"
 
-def start_streaming(source):
-    VLC = "\"C:\\Program Files (x86)\\VideoLAN\VLC\\vlc.exe\""
-    ytdl = "youtube-dl -o - "
-    stream_process = os.popen("youtube-dl -o - {} > {} ".format(source, PIPENAME))
-    return stream_process
 
+b = 1
 def play():
+
     time.sleep(4)
-    #os.system("cat < " + PIPENAME)
+    # os.system("cat < " + PIPENAME)
     print("mui")
-    #p = vlc.MediaPlayer('fd://{}'.format(PIPENAME))
-    ## p.play()
+    p = vlc.MediaPlayer("Gnarls Barkley - Crazy-bd2B6SjMh_w.webm")  # 'fd://{}'.format(PIPENAME))
+    input()
+
+    b = 1
+
+    p.play()
+    c = {"p": p.pause,
+         "s": p.stop,
+         "y": p.play
+        }
+    while 1:
+        afg = input("give command")
+        if afg in c:
+            c[afg]()
+        else:
+            print("p: pause/unpause", "s: stop", "y: play")
 
 
-class VLCController:
-    VLC = "\"C:\\Program Files (x86)\\VideoLAN\VLC\\vlc.exe\""
+class PlayerController:
+    PIPENAME = "piipe"
+    YTDL = "youtube-dl -o - "
+    stream_process = None
 
-    def play_new(self, source):
-        print("streaming")
-        # todo: use subprocess and make vlc controllable
-        ytdl = "youtube-dl -o - {}".format(source)
-        youtube_dl = subprocess.Popen(ytdl, stdout=subprocess.PIPE)
-        os.system("youtube-dl -o - {} | {} - ".format(source,  self.VLC))
-        os.system("{} vlc://quit".format(self.VLC))
+    def __init__(self, playlist=[].copy(), player=None):
+        self.playlist = playlist
+        if not player:
+            self.player = vlc.MediaPlayer()
+
+    def append(self, link):
+        # todo: Make work with users so that after f.ex. three songs playlist prefers users with fever songs on list
+        self.playlist.append(link)
+
+    def stream_to_pipe(self, source):
+        """:param source: link to start streaming with youtube-dl"""
+        if self.stream_process:
+            self.stream_process.stop()
+        self.stream_process = os.popen("youtube-dl -o - {} > {} ".format(source, PIPENAME))
+
+    def play_next(self):
+        link = self.playlist.pop[0]
+        self.stream_to_pipe(link)
+        #instance = vlc.Instance()
+        #media = instance.media_new("fd://"+self.PIPENAME)
+        #self.player.set_media(media)
+        self.player.play()
+
+    def override_play_local(self,song):
+
+        instance = vlc.Instance()
+        media = instance.media_new(song)
+        self.player.set_media(media)
+
+    def override_play_song(self, song):
+        instance = vlc.Instance()
+        media = instance.media_new("test.webm")
+        self.player.set_media(media)
+        self.player.play()
+
+    def override_stop(self):
+        self.player.stop()
+
+    def override_quit_player(self):
+        self.__exit__()
 
     def pause(self):
+        self.player.pause()
+
+    def __enter__(self):
         pass
 
-def main2():
-    vlc = VLCController()
-    playlist = [source,source2]
-    while playlist:
-        vlc.play_new(playlist.pop(0))
+    def __exit__(self):
+        if self.stream_process:
+            self.stream_process.close()
+        if self.player:
+            self.player.stop()
+        del self.player
+        self.player = None
+
+
 def main():
-    a = start_streaming(source)
-    play()
-    input("Close")
-    a.close()
+    with PlayerController() as player:
+        player.play()
 
 if __name__ == "__main__":
     main()
-# import subprocess
 
-# proc = subprocess.Popen(["cat", "/etc/services"], stdout=subprocess.PIPE, shell=True)
-# (out, err) = proc.communicate()
-# print "program output:", out
 
