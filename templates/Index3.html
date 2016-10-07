@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>¯\_(ツ)_/¯</title>
+        <link rel="stylesheet" href="{{style}}">
+    </head>
+
+    <body>
+        <div id="wrap">
+            <div id="header">
+                <h1>Musicadjusterthingy</h1>
+                <h2>When ya wanna adjust that music</h2>
+            </div>
+
+            <div id="nav">
+                <a href="/lyrics">Lyrics</a>
+                <a href="/place">Place</a>
+                <a href="/holder">Holder</a>
+            </div>
+
+            <div class="left">
+                <div class="search">
+                    <h1>Songfinder</h1><br>
+                    <form method="GET">
+                        <input class="input" type="text" name="song">
+                        <input type="submit" value="Search" class="button"><br>
+                        <input type="radio" name="source" value="YouTube" checked> Youtube
+                        <input type="radio" name="source" value="Spotify"> Spotify
+                        <input type="radio" name="source" value="SoundCloud"> SoundCloud
+                    </form>
+
+                </div>
+                <br><br>
+                <div class="results">
+                    <form method="POST">
+                        {%if data%}
+                            {% for item in data %}
+                                <button class='search_result' name="song" value="{{item['vidurl']}}">
+                                    <div class='thumbnail'>
+                                        <img src="{{item['thumbnail_url']|safe}}" height='100px'>
+                                    </div>
+                                    <div class='song_info'>
+                                        <p>{{item["title"]|safe}}</p>
+                                        <br>
+                                        <p>{{item["author_name"]|safe}}</p>
+                                    </div>
+                                    <br><br>
+                                </button>
+                            <br>
+                            {% endfor %}
+                        {%endif%}
+                    </form>
+                </div>
+            </div>
+            <div class="right">
+                <div class="controls">
+                    <form method="POST">
+                        <button class="button" name="previous">&#10074;&#9664;</button>
+                        <button class="button" name="play">&#9654;</button>
+                        <button class="button" name="pause">&#10074;&#10074;</button>
+                        <button class="button" name="next">&#9654;&#10074;</button>
+                        <p>Volume: </p>
+                        <input class="slider" type="range" name="volume" min="0" max="100" /><br><br>
+                        {%if error %}
+                        <p>{{ error }}</p>
+                        {% endif %}
+                        <img src="{{velho}}" style="width: 160px;">
+                    </form>
+                </div>
+            </div>
+            <div style="clear: both;"></div>
+            <div id="footer">
+                Designed by <a href="http://www.free-css-templates.com/">Free CSS Templates</a>, Thanks to <a href="http://www.openwebdesign.org/">website design</a>
+            </div>
+        </div>
+    </body>
+</html>

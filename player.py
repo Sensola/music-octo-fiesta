@@ -1,6 +1,5 @@
 import pafy
 
-
 def play_song(song):
     url = song
     video = pafy.new(url)
