@@ -5,4 +5,5 @@ Currently developing no-javascript version.
 ##Currently working:
 - App can find songs from youtube, parse usefull information and display it.
 - When clicked on search results App plays local test song. 
-- Streaming to named pipe works in linux but playing from there is not.
+- Pause button stops song from playing.
+- Streaming to named pipe works in linux but playing from there does not.
