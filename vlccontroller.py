@@ -33,6 +33,8 @@ def play():
 
 
 class PlayerController:
+    """Class to handle playlists, control VLC player using vlc.py and stream videos using youtube-dl"""
+    # todo: rename
     PIPENAME = "piipe"
     YTDL = "youtube-dl -o - "
     stream_process = None
@@ -53,6 +55,7 @@ class PlayerController:
         self.stream_process = os.popen("youtube-dl -o - {} > {} ".format(source, PIPENAME))
 
     def play_next(self):
+        # todo: test and
         link = self.playlist.pop[0]
         self.stream_to_pipe(link)
         #instance = vlc.Instance()
