@@ -21,12 +21,19 @@ def youtube(song):
     soup = BeautifulSoup(html, "html.parser")
     i = 0;
     for vid in soup.findAll(attrs={"class": "yt-uix-tile-link"}):
+
+
         vidurl = "https://www.youtube.com"+vid["href"]
 
         dataquery = urllib.parse.quote(vidurl)
         dataurl = "https://www.youtube.com/oembed?url={}&format=json".format(dataquery)
 
-        datar = urllib.request.urlopen(dataurl)
+        # todo: Moms spaghetti, find error and fix it
+        try:
+            datar = urllib.request.urlopen(dataurl)
+        except:
+            continue
+
         datahtml = datar.read()
         datasoup = BeautifulSoup(datahtml, "html.parser")
 
@@ -34,9 +41,13 @@ def youtube(song):
 
         # Take only thumbnail, title and authorname from json
         turnip = {}
+
+        if "author_name" not in jsonpaska:
+            continue
+
         for key in ("thumbnail_url","title","author_name"):
             turnip[key] = jsonpaska[key]
-        turnip["vidurl"]=vidurl
+        turnip["vidurl"] = vidurl
         data.append(turnip)
         # data = data + "<li><div class='search_result'><div class='thumbnail'><img src={} height='100px'></div><div class='song_info'><p>{}</p><br><p>{}</p></div><br><br></div></li>".format(jsonpaska["thumbnail_url"],jsonpaska["title"],jsonpaska["author_name"])
 

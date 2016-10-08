@@ -3,11 +3,13 @@ from flask import render_template
 from flask import url_for
 from flask import request
 import mecha
-#import player
+# import player
 import vlccontroller
 app = Flask(__name__)
 
 player = vlccontroller.PlayerController()
+
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     data = None
@@ -28,10 +30,10 @@ def index():
         else:
             error = "Not yet implemented"
     return render_template("Index3.html",
-                           style = url_for("static", filename="style.css"),
-                           velho = url_for("static", filename="velho.jpg"),
-                           data = data,
-                           error = error)
+                           style=url_for("static", filename="style.css"),
+                           velho=url_for("static", filename="velho.jpg"),
+                           data=data,
+                           error=error)
 
 
 @app.route("/place/")

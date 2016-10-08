@@ -85,20 +85,18 @@ class PlayerController:
         self.player.pause()
 
     def __enter__(self):
-        pass
+        return self
 
-    def __exit__(self):
+    def __exit__(self, *args):
         if self.stream_process:
             self.stream_process.close()
         if self.player:
             self.player.stop()
-        del self.player
-        self.player = None
-
+        print(args)
 
 def main():
     with PlayerController() as player:
-        player.play()
+        player.override_play_song()
 
 if __name__ == "__main__":
     main()
