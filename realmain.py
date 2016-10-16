@@ -3,10 +3,8 @@ from flask import render_template
 from flask import url_for
 from flask import request
 import mecha
-# import player
 import vlccontroller
 app = Flask(__name__)
-
 player = vlccontroller.PlayerController()
 
 

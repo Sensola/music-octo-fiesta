@@ -11,6 +11,34 @@ app = Flask(__name__)
 current_user = None
 
 
+from functools import wraps
+from flask import request, Response
+
+
+def check_auth(username, password):
+    """This function is called to check if a username /
+    password combination is valid.
+    """
+    return username == 'admin' and password == 'secret'
+
+def authenticate():
+    """Sends a 401 response that enables basic auth"""
+    return Response(
+    'Could not verify your access level for that URL.\n'
+    'You have to login with proper credentials', 401,
+    {'WWW-Authenticate': 'Basic realm="Login Required"'})
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth or not check_auth(auth.username, auth.password):
+            return authenticate()
+        return f(*args, **kwargs)
+    return decorated
+
+
+
 class DatabaseHandler:
     # Todo: make to only handle db, and separate encryption maybe and stuffa
     def __init__(self):
@@ -42,47 +70,26 @@ class DatabaseHandler:
 
     def save(self):
         self.con.commit()
-
-        # We can also close the connection if we are done with it.
-        # Just be sure any changes have been committed or they will be lost.
         self.con.close()
 
     def update_user(self):
         pass
 
+
 def encrypt(password):
     encrypted = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
     return encrypted
 
+
 def mathces(password, hashcode):
     return bcrypt.checkpw(password.encode("utf-8"), hashcode.encode("utf-8"))
 
-
-def log(*args):
-    print("##\n#", *args, "\n##")
-
-@app.route('/helloworld')
-def hello_world():
-    return 'Hello World!'
-
-hello_world() == app.route("/helloword", hello_world)
 
 @app.route('/u/<username>')
 def show_user_profile(username):
     # show the user profile for that user
     return 'User %s' % username
 
-
-@app.route('/u/<int:post_id>')
-def show_post(post_id):
-    # show the post with the given id, the id is an integer
-    return 'Post %d' % post_id
-
-
-
-@app.route('/')
-def index():
-    return ""
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

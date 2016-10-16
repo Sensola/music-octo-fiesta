@@ -15,13 +15,12 @@ def youtube(song):
     data = []
     search = song
     query = urllib.parse.quote(search)
-    url = "https://www.youtube.com/results?search_query="+query
+    url = "https://www.youtube.com/results?search_query=" + query
     r = urllib.request.urlopen(url)
     html = r.read()
     soup = BeautifulSoup(html, "html.parser")
     i = 0;
     for vid in soup.findAll(attrs={"class": "yt-uix-tile-link"}):
-
 
         vidurl = "https://www.youtube.com"+vid["href"]
 

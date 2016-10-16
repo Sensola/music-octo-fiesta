@@ -7,7 +7,7 @@ def isInts(f):
     return asd
 
 
-def are_types(*types):
+def request_types(*types):
     """
     When decorating function, give types that arguments should be
         @aretype(type1,type2,type3)
@@ -30,14 +30,14 @@ def are_types(*types):
     return return_test
 
 
-@are_types(int, int)
+@request_types(int, int)
 def moi(a,b)
     print("{}+{}={}".format(a,b,a+b))
 
 a, b =1, 2
 moi(a, b)
 
-are_types(int, int)(moi)(a, b)
+request_types(int, int)(moi)(a, b)
 
 def asdf(a,b):
     assert type(a) == int, "not int"
