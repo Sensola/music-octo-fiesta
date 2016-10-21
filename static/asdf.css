@@ -1,0 +1,7 @@
+.button:hover {
+    color: #ffffff;
+    background: url("/data_getter/none.gif");
+}
+.button:active {
+    background-image:url("/data_getter/play.gif");
+}

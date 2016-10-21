@@ -14,7 +14,6 @@
             </div>
 
             <div id="nav">
-                <a href="/">Main</a>
                 <a href="/lyrics">Lyrics</a>
                 <a href="/place">Place</a>
                 <a href="/holder">Holder</a>
@@ -56,6 +55,7 @@
             </div>
             <div class="right">
                 <div class="controls">
+                <noscript>
                     <form method="POST">
                         <button class="button" name="previous">&#10074;&#9664;</button>
                         <button class="button" name="play">&#9654;</button>
@@ -68,6 +68,17 @@
                         {% endif %}
                         <img src="{{velho}}" style="width: 160px;">
                     </form>
+                </noscript>
+                        <button class="button" name="previous">&#10074;&#9664;</button>
+                        <button class="button" name="play">&#9654;</button>
+                        <button class="button" name="pause">&#10074;&#10074;</button>
+                        <button class="button" name="next">&#9654;&#10074;</button>
+                        <p>Volume: </p>
+                        <input class="slider" type="range" name="volume" min="0" max="100" /><br><br>
+                        {%if error %}
+                        <p>{{ error }}</p>
+                        {% endif %}
+                        <img src="{{velho}}" style="width: 160px;">
                 </div>
             </div>
             <div style="clear: both;"></div>

@@ -1,5 +1,5 @@
 import os
-#  import subprocess
+import subprocess
 import vlc
 import time
 source = "https://www.youtube.com/watch?v=bd2B6SjMh_w"
@@ -71,8 +71,15 @@ class PlayerController:
         """:param source: link to start streaming with youtube-dl"""
         if self.stream_process:
             self.stream_process.close()
-        self.stream_process = os.popen("youtube-dl -o - {} > {} ".format(source, PIPENAME))
+        self.stream_process = os.popen("youtube-dl -o - {} > {} ".format(source, PIPENAME), shell = True)
 
+    def stream_to_vlc(self, link):
+        if self.stream_process:
+            self.stream_process.kill()
+        self.stream_process = subprocess.Popen("youtube-dl -o - {} | {} - --play-and-exit".format(link,
+                                               "\"C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc\""),
+                                               shell=True)
+        print("Moi")
     def play_song(self,link):
         # todo: test and
         # link = self.playlist.pop[0]

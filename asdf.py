@@ -29,16 +29,3 @@ def request_types(*types):
         return test
     return return_test
 
-
-@request_types(int, int)
-def moi(a,b)
-    print("{}+{}={}".format(a,b,a+b))
-
-a, b =1, 2
-moi(a, b)
-
-request_types(int, int)(moi)(a, b)
-
-def asdf(a,b):
-    assert type(a) == int, "not int"
-    assert type(b) == int, "not int"
