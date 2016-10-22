@@ -1,12 +1,14 @@
 # music-octo-fiesta
 Webapp and backend to change music playing in host machine 
-uses vlc.py and youtube-dl. There might be some other needed third party libraries.
+Streaming from youtube is made with youtube-dl and the stream is piped straight to vlc. Idea is to use vlc.py to controll vlc but there is some problems playing from named pipe so it isn't implemented yet.  Webapp backend is made with flask.
+
 Currently developing no-javascript version.
+
 ##Currently working:
 - App can find songs from youtube, parse usefull information and display it.
-- When clicked on search results App plays local test song. 
-- Pause button stops song from playing.
-- Streaming to named pipe works in linux but playing from there does not.
+- When clicked on search results App plays clicked song
+- Streaming to named pipe works in linux but there is issues with vlc to play from it.
+
 ##Todo:
 - Make playing from stream work
 - Update frontend
